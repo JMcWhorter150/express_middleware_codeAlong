@@ -64,11 +64,7 @@ app.get('/', (req, res) => {
 
 app.get('/blog', (req, res) => {
 
-    const blogHTML = [];
-    for (let post of blogData) {
-        blogHTML.push(`<h2>${post.title}</h2>`);
-        blogHTML.push(`<p>${post.content}<p>`);
-    }
+    const blogHTML = blogData.map(post => `<h2>${post.title}</h2><p>${post.content}</p>`);
     res.render('blog', {
         locals: {
             pageTitle: "Blog",
