@@ -64,11 +64,11 @@ app.get('/', (req, res) => {
 
 app.get('/blog', (req, res) => {
 
-    const blogHTML = blogData.map(post => `<h2>${post.title}</h2><p>${post.content}</p>`);
+    // const blogHTML = blogData.map(post => `<h2>${post.title}</h2><p>${post.content}</p>`);
     res.render('blog', {
         locals: {
             pageTitle: "Blog",
-            blogPosts: blogHTML.join('')
+            blogPosts: blogData
         },
         partials
     })
