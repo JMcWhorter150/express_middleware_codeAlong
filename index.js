@@ -22,20 +22,68 @@ app.set('views', 'templates');
 app.set('view engine', 'html');
 
 app.use(logger);
+const partials = {
+    nav: 'partials/nav',
+    footer: 'partials/footer',
+    header: 'partials/header'
+};
+
+const locals = [
+    {
+        pageTitle: "Home",
+        pageHeader: "This is the home page"
+    },
+    {
+        pageTitle: "Blog",
+        pageHeader: "This is the blog page"
+    },
+    {
+        pageTitle: "About",
+        pageHeader: "This is the about page"
+    }];
+
+const blogData = [{
+    title: "first blog post",
+    content: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam voluptatibus magnam quidem, perferendis adipisci fugiat modi temporibus laboriosam, obcaecati hic unde cumque, consequuntur accusantium repudiandae! Placeat delectus tenetur esse dolor.'
+},
+{
+    title: 'second blog post',
+    content: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam voluptatibus magnam quidem, perferendis adipisci fugiat modi temporibus laboriosam, obcaecati hic unde cumque, consequuntur accusantium repudiandae! Placeat delectus tenetur esse dolor.'
+},
+{
+    title: 'third blog post',
+    content: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nam voluptatibus magnam quidem, perferendis adipisci fugiat modi temporibus laboriosam, obcaecati hic unde cumque, consequuntur accusantium repudiandae! Placeat delectus tenetur esse dolor.'
+}];
 
 app.get('/', (req, res) => {
     res.render('home', {
-        locals: {
-            pageTitle: "Home",
-            pageHeader: "This is the home page"
-        },
-        partials: {
-            nav: 'partials/nav',
-            footer: 'partials/footer',
-            header: 'partials/header'
-        }
+        locals: locals[0],
+        partials
     });
 });
+
+app.get('/blog', (req, res) => {
+
+    const blogHTML = [];
+    for (let post of blogData) {
+        blogHTML.push(`<h2>${post.title}</h2>`);
+        blogHTML.push(`<p>${post.content}<p>`);
+    }
+    res.render('blog', {
+        locals: {
+            pageTitle: "Blog",
+            blogPosts: blogHTML.join('')
+        },
+        partials
+    })
+})
+
+app.get('/about', (req, res) => {
+    res.render('home', {
+        locals: locals[2],
+        partials
+    })
+})
 
 server.listen(PORT, () => {
   console.log(`Listening at PORT: ${PORT}`);
